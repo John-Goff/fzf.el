@@ -61,7 +61,7 @@
   :type 'string
   :group 'fzf)
 
-(defcustom fzf/args "-x --color bw --print-query --margin=1,0 --no-hscroll"
+(defcustom fzf/args "-x --print-query --margin=1,0 --no-hscroll"
   "Additional arguments to pass into fzf."
   :type 'string
   :group 'fzf)
@@ -78,6 +78,11 @@
 
 (defcustom fzf/directory-start nil
   "The path of the default start directory for fzf-directory."
+  :type 'string
+  :group 'fzf)
+
+(defcustom fzf/colorscheme "--colorscheme=bw"
+  "Colorscheme options. Set to an empty string to not pass any color options"
   :type 'string
   :group 'fzf)
 
@@ -119,8 +124,9 @@ registers.")
          (buf (get-buffer-create "*fzf*"))
          (min-height (min fzf/window-height (/ (window-height) 2)))
          (window-height (if fzf/position-bottom (- min-height) min-height))
-         (sh-cmd (if cmd-stream (concat cmd-stream " | " fzf/executable " " fzf/args)
-                   (concat fzf/executable " " fzf/args))))
+	 (sh-cmd (if cmd-stream (concat cmd-stream " | " fzf/executable
+					" " fzf/args " " fzf/colorscheme)
+		   (concat fzf/executable " " fzf/args " " fzf/colorscheme))))
     (with-current-buffer buf
       (setq default-directory directory))
     (split-window-vertically window-height)
