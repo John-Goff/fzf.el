@@ -182,7 +182,7 @@ registers.")
 
 ;;;###autoload
 (defun fzf-hg ()
-  "Starts a fzf session at the root of the curreng hg."
+  "Starts a fzf session at the root of the current hg."
   (interactive)
   (fzf/vcs ".hg"))
 
