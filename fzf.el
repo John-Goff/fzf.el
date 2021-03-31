@@ -86,6 +86,11 @@
   :type 'string
   :group 'fzf)
 
+(defcustom fzf/evil-esc-to-kill-buffer nil
+  "If set, ESC will kill the FZF buffer."
+  :type 'bool
+  :group 'fzf)
+
 (defconst fzf/window-register ?⬄
   "A single character for fzf to save/restore the window
 configuration. `window-configuration-to-register' expects a single
@@ -137,6 +142,10 @@ registers.")
     (make-term "fzf" "sh" nil "-c" sh-cmd)
     (switch-to-buffer buf)
     (and (fboundp #'turn-off-evil-mode) (turn-off-evil-mode))
+    (if fzf/evil-esc-to-kill-buffer
+        (progn
+          (evil-local-set-key 'normal (kbd "<escape>") 'term-kill-subjob)
+          (evil-local-set-key 'insert (kbd "<escape>") 'term-kill-subjob)))
     (linum-mode 0)
     (visual-line-mode 0)
 
