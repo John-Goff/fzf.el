@@ -143,9 +143,9 @@ registers.")
     (switch-to-buffer buf)
     (and (fboundp #'turn-off-evil-mode) (turn-off-evil-mode))
     (if fzf/evil-esc-to-kill-buffer
-        (progn
-          (evil-local-set-key 'normal (kbd "<escape>") 'term-kill-subjob)
-          (evil-local-set-key 'insert (kbd "<escape>") 'term-kill-subjob)))
+	(progn
+	  (use-local-map (copy-keymap term-mode-map))
+	  (local-set-key (kbd "<escape>") 'term-kill-subjob)))
     (linum-mode 0)
     (visual-line-mode 0)
 
