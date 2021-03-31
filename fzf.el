@@ -81,7 +81,7 @@
   :type 'string
   :group 'fzf)
 
-(defcustom fzf/colorscheme "--colorscheme=bw"
+(defcustom fzf/colorscheme "--color=bw"
   "Colorscheme options. Set to an empty string to not pass any color options"
   :type 'string
   :group 'fzf)
