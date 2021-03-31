@@ -81,7 +81,7 @@
   :type 'string
   :group 'fzf)
 
-(defcustom fzf/colorscheme "--color=bw"
+(defcustom fzf/colorscheme "bw"
   "Colorscheme options. Set to an empty string to not pass any color options"
   :type 'string
   :group 'fzf)
@@ -124,9 +124,12 @@ registers.")
          (buf (get-buffer-create "*fzf*"))
          (min-height (min fzf/window-height (/ (window-height) 2)))
          (window-height (if fzf/position-bottom (- min-height) min-height))
-	 (sh-cmd (if cmd-stream (concat cmd-stream " | " fzf/executable
-					" " fzf/args " " fzf/colorscheme)
-		   (concat fzf/executable " " fzf/args " " fzf/colorscheme))))
+	 (cmd-with-args (if cmd-stream
+			    (concat cmd-stream " | " fzf/executable " " fzf/args)
+			  (concat fzf/executable " " fzf/args)))
+	 (sh-cmd (if (string-empty-p fzf/colorscheme)
+		     cmd-with-args
+		   (concat cmd-with-args " --color=" fzf/colorscheme))))
     (with-current-buffer buf
       (setq default-directory directory))
     (split-window-vertically window-height)
